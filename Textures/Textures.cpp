@@ -3,6 +3,7 @@
 
 #include "Textures.h"
 
+#include <iostream>
 #include <cassert>
 
 using namespace std;
@@ -55,5 +56,13 @@ std::unique_ptr<ITexture> MakeTextureCow() {
                  R"((__)\       )\/\)",
                  R"(    ||----w |   )",
                  R"(    ||     ||   )"};
+
+  for (auto y : image) {
+      for (auto x : y) {
+          std::cout << x;
+      }
+      cout << "\n";
+  }
+
   return make_unique<Texture>(move(image));
 }

@@ -50,6 +50,7 @@ public:
 // Интерфейс фигуры
 class IShape {
 public:
+
   virtual ~IShape() = default;
 
   // Возвращает точную копию фигуры.
