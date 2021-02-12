@@ -4,8 +4,8 @@
 
 #include "Common.h"
 #include "Textures.h"
-//#include "test_runner.h"
-#include "..\..\test_runner.h"
+#include "test_runner.h"
+//#include "..\..\test_runner.h"
 
 #include <iostream>
 #include <map>
@@ -115,11 +115,13 @@ void TestEllipse() {
     Canvas canvas;
     //canvas.SetSize({ 35, 13 });
     canvas.SetSize({ 77, 17 });
+    //canvas.SetSize({ 0, 0 });
+    //canvas.SetSize({ 3, 3 });
 
     //canvas.AddShape(ShapeType::Ellipse, { 1, 0 }, { 25, 8 }, nullptr);
     //canvas.AddShape(ShapeType::Ellipse, { 2, 2 }, { 15, 5 }, MakeTextureSolid({ 30, 11 }, '*'));
-    canvas.AddShape(ShapeType::Ellipse, { 2, 1 }, { 30, 7 }, MakeTextureCheckers({ 70, 20 }, 'c', 'C'));
-    //canvas.AddShape(ShapeType::Rectangle, { 5, 1 }, { 30, 11 }, MakeTextureSolid({ 10, 5 }, '*'));
+    canvas.AddShape(ShapeType::Ellipse, { 15, 2 }, { 40, 11 }, MakeTextureCheckers({ 70, 20 }, 'c', 'C'));
+    //canvas.AddShape(ShapeType::Rectangle, { 2, 5 }, { 44, 11 }, MakeTextureSolid({ 5, 5 }, '*'));
     //canvas.AddShape(ShapeType::Rectangle, { 1, 1 }, { 3, 3 }, nullptr);
 
     stringstream output;
@@ -220,7 +222,7 @@ void TestCpp() {
 
 int main() {
   TestRunner tr;
-  //RUN_TEST(tr, TestEllipse);
+  RUN_TEST(tr, TestEllipse);
   RUN_TEST(tr, TestSimple);
   RUN_TEST(tr, TestSmallTexture);
   RUN_TEST(tr, TestCow);

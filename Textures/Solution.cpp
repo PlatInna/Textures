@@ -52,29 +52,39 @@ public:
 		return  p.x < size.width and p.y < size.height;
 	}
 
+	bool IsPointInCanvas(Point p, Size size) const {
+		return  p.x < size.width and p.y < size.height;
+	}
+
 	// Рисует фигуру на указанном изображении
 	void Draw(Image& image) const override {
+		if (!image.empty()) {
+			Size canvas_size;
+			canvas_size.height = image.size();
+			canvas_size.width = image[0].size();
+			Image texture_image;
+			Size texture_size;
 
-		Image texture_image;
-		Size texture_size;
+			if (_shrd_ptr_texture_) {
+				texture_image = _shrd_ptr_texture_->GetImage();
+				texture_size = _shrd_ptr_texture_->GetSize();
+			}
+			else {
+				texture_image = {};
+				texture_size = { 0,0 };
+			}
 
-		if (_shrd_ptr_texture_) {
-			texture_image = _shrd_ptr_texture_->GetImage();
-			texture_size = _shrd_ptr_texture_->GetSize();
-		}
-		else {
-			texture_image = {};
-			texture_size = { 0,0 };
-		}
-
-		for (int y = _shape_start_position_.y; y < _shape_start_position_.y + _shape_size_.height; ++y) {
-			for (int x = _shape_start_position_.x; x < _shape_start_position_.x + _shape_size_.width; ++x) {
-				if (IsPointInShape(Point{ x - _shape_start_position_.x, y - _shape_start_position_.y }, _shape_size_)) {
-					if (IsPointInTexture(Point{ x - _shape_start_position_.x, y - _shape_start_position_.y }, texture_size)) {
-						image[y][x] = texture_image[y - _shape_start_position_.y][x - _shape_start_position_.x];
-					}
-					else {
-						image[y][x] = '.';
+			for (int y = _shape_start_position_.y; y < _shape_start_position_.y + _shape_size_.height; ++y) {
+				for (int x = _shape_start_position_.x; x < _shape_start_position_.x + _shape_size_.width; ++x) {
+					if (IsPointInCanvas(Point{ x, y }, canvas_size)) {
+						if (IsPointInShape(Point{ x - _shape_start_position_.x, y - _shape_start_position_.y }, _shape_size_)) {
+							if (IsPointInTexture(Point{ x - _shape_start_position_.x, y - _shape_start_position_.y }, texture_size)) {
+								image[y][x] = texture_image[y - _shape_start_position_.y][x - _shape_start_position_.x];
+							}
+							else {
+								image[y][x] = '.';
+							}
+						}
 					}
 				}
 			}
@@ -106,13 +116,11 @@ class EllipseShape : public Shape {
 
 // Напишите реализацию функции
 unique_ptr<IShape> MakeShape(ShapeType shape_type) {
-	if (shape_type == ShapeType::Ellipse) {
+	switch (shape_type) {
+	case ShapeType::Rectangle:
+		return make_unique<RectangleShape>();
+	case ShapeType::Ellipse:
 		return make_unique<EllipseShape>();
 	}
-	else if (shape_type == ShapeType::Rectangle) {
-		return make_unique<RectangleShape>();
-	}
-	else {
-		throw logic_error("Invalid shape_type");
-	}
+	return nullptr;
 }

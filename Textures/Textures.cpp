@@ -57,12 +57,5 @@ std::unique_ptr<ITexture> MakeTextureCow() {
                  R"(    ||----w |   )",
                  R"(    ||     ||   )"};
 
-  for (auto y : image) {
-      for (auto x : y) {
-          std::cout << x;
-      }
-      cout << "\n";
-  }
-
   return make_unique<Texture>(move(image));
 }
